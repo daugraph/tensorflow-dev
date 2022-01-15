@@ -11,3 +11,6 @@ node_modules
 /util/python/python_lib
 /local_server/.DS_Store
 .DS_Store
+local_server/nohup.out
+/bazel-tensorflow-dev
+*.pyc

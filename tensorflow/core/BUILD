@@ -740,3 +740,65 @@ filegroup(
     ),
     visibility = ["//tensorflow:__subpackages__"],
 )
+
+# 附加测试用例
+
+cc_test(
+    name = "edgeset_test",
+    srcs = ["graph/edgeset_test.cc"],
+    deps = [
+        ":core",
+        ":test_main",
+        ":testlib",
+    ],
+)
+
+cc_test(
+    name = "graph_test",
+    srcs = ["graph/graph_test.cc"],
+    deps = [
+        ":core",
+        ":test_main",
+        ":testlib",
+    ],
+)
+
+cc_test(
+    name = "op_def_util_test",
+    srcs = ["framework/op_def_util_test.cc"],
+    deps = [
+        ":core",
+        ":test_main",
+        ":testlib",
+    ],
+)
+
+cc_test(
+    name = "simple_placer_test",
+    srcs = ["common_runtime/simple_placer_test.cc"],
+    deps = [
+        ":core",
+        ":test_main",
+        ":testlib",
+    ],
+)
+
+cc_test(
+    name = "direct_session_test",
+    srcs = ["common_runtime/direct_session_test.cc"],
+    deps = [
+        ":core",
+        ":test_main",
+        ":testlib",
+    ],
+)
+
+cc_test(
+    name = "node_builder_test",
+    srcs = ["graph/node_builder_test.cc"],
+    deps = [
+        ":core",
+        ":test_main",
+        ":testlib",
+    ],
+)

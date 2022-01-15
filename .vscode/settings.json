@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "iosfwd": "cpp",
+    "string": "cpp",
+    "__locale": "cpp",
+    "*.idl": "cpp",
+    "functional": "cpp",
+    "vector": "cpp",
+    "bitset": "cpp",
+    "string_view": "cpp",
+    "*.tcc": "cpp"
+  },
+  "C_Cpp.errorSquiggles": "Disabled"
+}
