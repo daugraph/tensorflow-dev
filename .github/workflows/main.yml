@@ -7,9 +7,13 @@ jobs:
       image: daugraph/tensorflow-dev:0.6.1
     steps:
       - uses: actions/checkout@v3
-      - run: eval 'ls -al'
+      - run: ls -al
       - run: cd local_server && nohup python local_server.py &
       - run: export TF_NEED_CUDA=0
       - run: export PYTHON_BIN_PATH=/usr/local/bin/python
       - run: ./configure
       - run: bazel build -c opt tensorflow/tools/pip_package:build_pip_package
+      - run: rm -rf /tmp/pip/*
+      - run: bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+      - run: ls -al /tmp/pip/
+      - run: pip install --upgrade --no-deps --force-reinstall /tmp/pip/*.whl
