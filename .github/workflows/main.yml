@@ -7,7 +7,7 @@ jobs:
       image: daugraph/tensorflow-dev:0.5.0
     steps:
       - uses: actions/checkout@v3
-      - run: nohup python ./local_server/local_server.py &
+      - run: cd local_server && nohup python local_server.py &
       - run: export TF_NEED_CUDA=0
       - run: export PYTHON_BIN_PATH=$(which python)
       - run: ./configure
