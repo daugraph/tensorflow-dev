@@ -4,8 +4,6 @@ from flask import Flask, request, jsonify, send_from_directory, abort
 import os
 from flask import make_response
 
-os.chdir('.')
-
 app = Flask(__name__)
 
 @app.route("/<filename>", methods=['GET'])
