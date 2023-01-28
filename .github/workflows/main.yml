@@ -6,7 +6,7 @@ jobs:
     container:
       image: daugraph/tensorflow-dev:0.6.1
     steps:
-      - run: eval 'ls -al'
       - uses: actions/checkout@v3
       - run: eval 'ls -al'
-      - run: cd local_server && python local_server.py
+      - run: cd local_server && nohup python local_server.py &
+      - run: bazel build -c opt tensorflow/tools/pip_package:build_pip_package
