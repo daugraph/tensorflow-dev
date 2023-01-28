@@ -4,7 +4,14 @@ MAINTAINER Jan Prach <jendap@google.com>
 
 # Install dependencies for bazel.
 RUN apt-get update && apt-get install -y \
+        build-essential \
         g++ \
+        curl \
+        wget \
+        git \
+        libfreetype6-dev \
+        libpng12-dev \
+        libzmq3-dev \
         pkg-config \
         python-dev \
         python-numpy \
@@ -12,7 +19,6 @@ RUN apt-get update && apt-get install -y \
         software-properties-common \
         swig \
         unzip \
-        wget \
         zip \
         zlib1g-dev \
         && \
@@ -22,7 +28,7 @@ RUN apt-get update && apt-get install -y \
 # Install openjdk 8 for bazel from PPA (it is not available in 14.04).
 RUN add-apt-repository -y ppa:openjdk-r/ppa && \
     apt-get update && \
-    apt-get install -y openjdk-8-jdk openjdk-8-jre-headless && \
+    apt-get install -y --force-yes openjdk-8-jdk openjdk-8-jre-headless && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -31,7 +37,6 @@ ENV BAZEL_VERSION 0.1.1
 RUN mkdir /bazel && \
     cd /bazel && \
     wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
-    wget -O /bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt && \
     chmod +x bazel-*.sh && \
     ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
     rm -f /bazel/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
@@ -50,3 +55,25 @@ RUN echo "build --spawn_strategy=standalone --genrule_strategy=standalone" \
 # Force bazel output to use colors (good for jenkins).
 RUN echo "common --color=yes" >>/root/.bazelrc
 ENV BAZELRC /root/.bazelrc
+
+# Install Python-2.7.18
+RUN apt-get update -y && \
+    apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libffi-dev && \
+    wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz && \
+    tar -xvf Python-2.7.18.tgz && \
+    cd Python-2.7.18 && \
+    ./configure --without-tests --enable-shared && \
+    make -j6 && \
+    make install && \
+    ldconfig /usr/local/lib && \
+    cd .. && rm -f Python-2.7.18.tgz && rm -rf Python-2.7.18 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install pip
+RUN curl -fSsL -O https://bootstrap.pypa.io/pip/2.7/get-pip.py && \
+    python get-pip.py && \
+    rm get-pip.py
+
+# Install packages
+RUN pip install numpy==1.16.6 flask==1.1.4 wheel==0.37.1
