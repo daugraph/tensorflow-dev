@@ -7,5 +7,7 @@ jobs:
       image: daugraph/tensorflow-dev:0.6.0
     steps:
       - run: eval 'ls -al'
+      - uses: actions/checkout@v3
+      - run: eval 'ls -al'
       - run: cd local_server
       - run: nohup bash local_server.sh &
