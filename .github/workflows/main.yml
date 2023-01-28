@@ -17,3 +17,8 @@ jobs:
       - run: bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
       - run: ls -al /tmp/pip/
       - run: pip install --upgrade --no-deps --force-reinstall /tmp/pip/*.whl
+      - uses: actions/upload-artifact@v3
+        with:
+          name: tensorflow-dev
+          path: /tmp/pip/*.whl
+      
