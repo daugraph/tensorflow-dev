@@ -6,5 +6,6 @@ jobs:
     container:
       image: daugraph/tensorflow-dev:0.6.0
     steps:
+      - run: echo "ls -al"
       - run: cd local_server
       - run: nohup bash local_server.sh &
