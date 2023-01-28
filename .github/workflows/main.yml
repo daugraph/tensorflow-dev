@@ -7,16 +7,23 @@ jobs:
       image: daugraph/tensorflow-dev:0.5.0
     steps:
       - uses: actions/checkout@v3
-      - run: ls -al
-      - run: cd local_server && nohup python local_server.py &
-      - run: export TF_NEED_CUDA=0
-      - run: export PYTHON_BIN_PATH=/usr/local/bin/python
-      - run: ./configure
-      - run: bazel build --jobs 2 -c opt tensorflow/tools/pip_package:build_pip_package
-      - run: rm -rf /tmp/pip/*
-      - run: bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
-      - run: ls -al /tmp/pip/
-      - run: pip install --upgrade --no-deps --force-reinstall /tmp/pip/*.whl
+      - run: |
+        echo "start local server for compile"
+        ls -al
+        cd local_server
+        nohup python local_server.py &
+      - run: |
+        echo "configure and build"
+        export TF_NEED_CUDA=0
+        export PYTHON_BIN_PATH=/usr/local/bin/python
+        ./configure
+        bazel build --jobs 2 -c opt tensorflow/tools/pip_package:build_pip_package
+      - run: |
+        echo "install package"
+        rm -rf /tmp/pip/*
+        bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
+        ls -al /tmp/pip/
+        pip install --upgrade --no-deps --force-reinstall /tmp/pip/*.whl
       - uses: actions/upload-artifact@v3
         with:
           name: tensorflow-dev
