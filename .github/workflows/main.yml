@@ -12,7 +12,7 @@ jobs:
       - run: export TF_NEED_CUDA=0
       - run: export PYTHON_BIN_PATH=/usr/local/bin/python
       - run: ./configure
-      - run: bazel build -c opt tensorflow/tools/pip_package:build_pip_package
+      - run: bazel build --jobs 2 -c opt tensorflow/tools/pip_package:build_pip_package
       - run: rm -rf /tmp/pip/*
       - run: bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip
       - run: ls -al /tmp/pip/
