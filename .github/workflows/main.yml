@@ -1,11 +1,10 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: main-workflow
 on: [push]
 jobs:
-  check-bats-version:
+  build_package:
     runs-on: ubuntu-latest
     container:
       image: daugraph/tensorflow-dev:0.6.0
     steps:
-      - run: npm install -g bats
-      - run: bats -v
+      - run: cd local_server
+      - run: nohup bash local_server.sh &
